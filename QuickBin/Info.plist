@@ -20,6 +20,12 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>QuickBin wants to use your location to show bins near from you.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>QuickBin wants to use your camera to take a photo.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>QuickBin wants to access your photo library to use image for bins.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

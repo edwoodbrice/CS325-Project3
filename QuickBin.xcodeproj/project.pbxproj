@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA2655DF21BACCF60083367B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2655DE21BACCF60083367B /* MapViewController.swift */; };
+		EA2655E121BACDB50083367B /* NavigationBarAttachedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2655E021BACDB50083367B /* NavigationBarAttachedViewController.swift */; };
+		EA4A835C21B9C3D2004B2412 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = EA4A835B21B9C3D2004B2412 /* Images */; };
 		EA63E1E12199ADDC000D7D0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA63E1E02199ADDC000D7D0C /* AppDelegate.swift */; };
 		EA63E1E32199ADDC000D7D0C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA63E1E22199ADDC000D7D0C /* ViewController.swift */; };
 		EA63E1E62199ADDC000D7D0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA63E1E42199ADDC000D7D0C /* Main.storyboard */; };
@@ -14,6 +17,12 @@
 		EA63E1EB2199ADDC000D7D0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA63E1E92199ADDC000D7D0C /* LaunchScreen.storyboard */; };
 		EA63E1F62199ADDC000D7D0C /* QuickBinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA63E1F52199ADDC000D7D0C /* QuickBinTests.swift */; };
 		EA63E2012199ADDC000D7D0C /* QuickBinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA63E2002199ADDC000D7D0C /* QuickBinUITests.swift */; };
+		EA892D2021B83E54001E71DF /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA892D1F21B83E54001E71DF /* SplashViewController.swift */; };
+		EA892D2221B84219001E71DF /* locationData.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA892D2121B84219001E71DF /* locationData.plist */; };
+		EA892D2421B84288001E71DF /* DataKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA892D2321B84288001E71DF /* DataKeys.swift */; };
+		EA892D2621B843C3001E71DF /* Bin.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA892D2521B843C3001E71DF /* Bin.swift */; };
+		EA892D2821B8A0DF001E71DF /* BinAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA892D2721B8A0DF001E71DF /* BinAnnotationView.swift */; };
+		EAF91A4721BA913100A8C386 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF91A4621BA913100A8C386 /* AddViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EA2655DE21BACCF60083367B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		EA2655E021BACDB50083367B /* NavigationBarAttachedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarAttachedViewController.swift; sourceTree = "<group>"; };
+		EA4A835B21B9C3D2004B2412 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		EA63E1DD2199ADDC000D7D0C /* QuickBin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickBin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA63E1E02199ADDC000D7D0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA63E1E22199ADDC000D7D0C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +59,12 @@
 		EA63E1FC2199ADDC000D7D0C /* QuickBinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickBinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA63E2002199ADDC000D7D0C /* QuickBinUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickBinUITests.swift; sourceTree = "<group>"; };
 		EA63E2022199ADDC000D7D0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA892D1F21B83E54001E71DF /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		EA892D2121B84219001E71DF /* locationData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = locationData.plist; sourceTree = "<group>"; };
+		EA892D2321B84288001E71DF /* DataKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataKeys.swift; sourceTree = "<group>"; };
+		EA892D2521B843C3001E71DF /* Bin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bin.swift; sourceTree = "<group>"; };
+		EA892D2721B8A0DF001E71DF /* BinAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinAnnotationView.swift; sourceTree = "<group>"; };
+		EAF91A4621BA913100A8C386 /* AddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +116,20 @@
 			isa = PBXGroup;
 			children = (
 				EA63E1E02199ADDC000D7D0C /* AppDelegate.swift */,
+				EA2655E021BACDB50083367B /* NavigationBarAttachedViewController.swift */,
 				EA63E1E22199ADDC000D7D0C /* ViewController.swift */,
+				EA2655DE21BACCF60083367B /* MapViewController.swift */,
+				EA892D2721B8A0DF001E71DF /* BinAnnotationView.swift */,
+				EA892D2521B843C3001E71DF /* Bin.swift */,
 				EA63E1E42199ADDC000D7D0C /* Main.storyboard */,
+				EA892D1F21B83E54001E71DF /* SplashViewController.swift */,
+				EAF91A4621BA913100A8C386 /* AddViewController.swift */,
+				EA892D2321B84288001E71DF /* DataKeys.swift */,
 				EA63E1E72199ADDC000D7D0C /* Assets.xcassets */,
 				EA63E1E92199ADDC000D7D0C /* LaunchScreen.storyboard */,
+				EA892D2121B84219001E71DF /* locationData.plist */,
 				EA63E1EC2199ADDC000D7D0C /* Info.plist */,
+				EA4A835B21B9C3D2004B2412 /* Images */,
 			);
 			path = QuickBin;
 			sourceTree = "<group>";
@@ -232,9 +259,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA4A835C21B9C3D2004B2412 /* Images in Resources */,
 				EA63E1EB2199ADDC000D7D0C /* LaunchScreen.storyboard in Resources */,
 				EA63E1E82199ADDC000D7D0C /* Assets.xcassets in Resources */,
 				EA63E1E62199ADDC000D7D0C /* Main.storyboard in Resources */,
+				EA892D2221B84219001E71DF /* locationData.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,8 +288,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA892D2621B843C3001E71DF /* Bin.swift in Sources */,
+				EA892D2821B8A0DF001E71DF /* BinAnnotationView.swift in Sources */,
+				EA2655E121BACDB50083367B /* NavigationBarAttachedViewController.swift in Sources */,
+				EAF91A4721BA913100A8C386 /* AddViewController.swift in Sources */,
+				EA892D2021B83E54001E71DF /* SplashViewController.swift in Sources */,
 				EA63E1E32199ADDC000D7D0C /* ViewController.swift in Sources */,
 				EA63E1E12199ADDC000D7D0C /* AppDelegate.swift in Sources */,
+				EA892D2421B84288001E71DF /* DataKeys.swift in Sources */,
+				EA2655DF21BACCF60083367B /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +465,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JYNBD5ELPC;
 				INFOPLIST_FILE = QuickBin/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cs325-project3.QuickBin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -444,6 +481,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JYNBD5ELPC;
 				INFOPLIST_FILE = QuickBin/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "cs325-project3.QuickBin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
