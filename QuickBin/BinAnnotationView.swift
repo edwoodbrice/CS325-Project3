@@ -19,7 +19,82 @@ class BinAnnotationView: MKAnnotationView {
     var binAnnotation: Bin {
         return self.annotation as! Bin
     }
+    override var annotation: MKAnnotation? {
+        willSet {
+            if let newValue = newValue as? Bin, self.detailCalloutAccessoryView != nil {
+                self.image = newValue.annotationImage
+                self.binImage = newValue.image
+                self.subtitleForBin = newValue.subtitle
+                // report button is possibly nil but fine as it will inited in customInit.
+                self.reportButton?.setTitle(self.binAnnotation.builtIn ? "Report" : "Edit", for: .normal)
+                updateViewHeight()
+            }
+        }
+    }
+    private lazy var heightConstraint: NSLayoutConstraint = {
+        let stackView = self.detailCalloutAccessoryView as! UIStackView
+        return stackView.heightAnchor.constraint(equalToConstant: stackView.subviews.reduce(0) { (result, view) -> CGFloat in
+            result + view.frame.size.height
+        })
+    }()
 
+    private func updateViewHeight() {
+        let stackView = self.detailCalloutAccessoryView as! UIStackView
+        self.heightConstraint.constant = stackView.subviews.reduce(0) { (result, view) -> CGFloat in
+            result + view.frame.size.height
+        }
+//        print("Updated: %.02f", self.heightConstraint.constant)
+    }
+
+    private weak var descriptionLabel: UILabel!
+    private weak var imageView: UIImageView!
+
+    private weak var reportButton: UIButton!
+
+
+    private let viewSize = CGSize.init(width: 200, height: 200)
+
+    private lazy var imageViewConstraint: (NSLayoutConstraint, NSLayoutConstraint) =
+        (self.imageView.widthAnchor.constraint(equalToConstant: self.viewSize.width),
+        self.imageView.heightAnchor.constraint(equalToConstant: self.viewSize.width * 0.75))
+
+    var binImage: UIImage? {
+        get {
+            return self.imageView.image
+        }
+        set {
+            self.imageView.image = newValue
+            if newValue != nil {
+                self.imageView.frame = .init(origin: .zero, size: .init(width: viewSize.width, height: viewSize.width * 0.75))
+                self.imageViewConstraint.0.isActive = true
+                self.imageViewConstraint.1.isActive = true
+                self.imageView.isHidden = false
+            }
+            else {
+                self.imageViewConstraint.0.isActive = false
+                self.imageViewConstraint.1.isActive = false
+                self.imageView.frame = .zero
+                self.imageView.isHidden = true
+            }
+        }
+    }
+    var subtitleForBin: String? {
+        get {
+            return self.descriptionLabel.text
+        }
+        set {
+            self.descriptionLabel.text = newValue
+            if !(newValue?.isEmpty ?? false) {
+                self.descriptionLabel.sizeToFit()
+                self.descriptionLabel.frame.size = self.descriptionLabel.sizeThatFits(viewSize)
+                self.descriptionLabel.isHidden = false
+            }
+            else {
+                self.descriptionLabel.frame.size = .zero
+                self.descriptionLabel.isHidden = true
+            }
+        }
+    }
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         customInit()
@@ -32,28 +107,34 @@ class BinAnnotationView: MKAnnotationView {
         self.canShowCallout = true
         self.calloutOffset = CGPoint(x: 0, y: -2.5)
 
-        let viewSize = CGSize.init(width: 200, height: 200)
+        let descriptionLabel = UILabel()
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.text = description
+        descriptionLabel.font = descriptionLabel.font.withSize(12)
+        self.descriptionLabel = descriptionLabel
 
-        var subviews: [UIView] = []
-        if let description = self.annotation?.subtitle {
-            let descriptionLabel = UILabel(frame: .zero)
-            descriptionLabel.numberOfLines = 0
-            descriptionLabel.text = description
-            descriptionLabel.font = descriptionLabel.font.withSize(12)
-            descriptionLabel.sizeToFit()
-//            descriptionLabel.frame.size = descriptionLabel.sizeThatFits(viewSize)
-            subviews.append(descriptionLabel)
-        }
-        if let image = self.binAnnotation.image {
-            let imageView = UIImageView(image: image)
-            imageView.contentMode = .scaleAspectFit
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isHidden = true
+        self.imageView = imageView
+
+
+//        var subviews: [UIView] = []
+//        let descriptionLabel = UILabel(frame: .zero)
+//        descriptionLabel.numberOfLines = 0
+//        descriptionLabel.text = description
+//        descriptionLabel.font = descriptionLabel.font.withSize(12)
+//        self.descriptionLabel = descriptionLabel
+//        subviews.append(descriptionLabel)
+
+//        if let image = self.binAnnotation.image {
             // use 4:3 as standard ratio
-            imageView.frame = .init(origin: .zero, size: .init(width: viewSize.width, height: viewSize.width * 0.75))
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.widthAnchor.constraint(equalToConstant: viewSize.width).isActive = true
-            imageView.heightAnchor.constraint(equalToConstant: viewSize.width * 0.75).isActive = true
-            subviews.append(imageView)
-        }
+
+//            subviews.append(imageView)
+//        self.imageView = imageView
+//        self.imageView.isHidden = true
+//        }
         let buttonHeight: CGFloat = 30
 
         let buttonView = UIView(frame: .init(origin: .zero, size: .init(width: viewSize.width, height: buttonHeight)))
@@ -75,6 +156,7 @@ class BinAnnotationView: MKAnnotationView {
         reportButton.titleLabel?.font = reportButton.titleLabel?.font.withSize(12)
         reportButton.setTitleColor(.red, for: UIControlState.normal)
         reportButton.addTarget(self, action: #selector(reportButton(sender:)), for: .touchUpInside)
+        self.reportButton = reportButton
 //        reportButton.backgroundColor = .blue
 
 //        reportButton.addTopBorder(color: .gray, width: 1)
@@ -84,14 +166,14 @@ class BinAnnotationView: MKAnnotationView {
         buttonView.addSubview(reportButton)
 //        buttonView.translatesAutoresizingMaskIntoConstraints = false
 
-        subviews.append(buttonView)
+//        subviews.append(buttonView)
 
-        let detailsStackView = UIStackView(arrangedSubviews: subviews)
-        subviews.forEach { view in
-            if (view is UIImageView == false) {
-                view.frame.size = view.sizeThatFits(viewSize)
-            }
-        }
+        let detailsStackView = UIStackView(arrangedSubviews: [self.descriptionLabel, self.imageView, buttonView])
+        buttonView.heightAnchor.constraint(equalToConstant: buttonView.frame.size.height).isActive = true
+//        subviews.forEach { view in
+//            if (view is UIImageView == false) {
+//            }
+//        }
 //        let constraints = [buttonView.topAnchor.constraint(equalTo: detailsStackView.topAnchor),
 //                           buttonView.leadingAnchor.constraint(equalTo: detailsStackView.leadingAnchor),
 //                           buttonView.trailingAnchor.constraint(equalTo: detailsStackView.trailingAnchor),
@@ -99,9 +181,7 @@ class BinAnnotationView: MKAnnotationView {
 //                           ]
 //        NSLayoutConstraint.activate(constraints)
 
-        detailsStackView.heightAnchor.constraint(equalToConstant: subviews.reduce(0) { (result, view) -> CGFloat in
-            result + view.frame.size.height
-        }).isActive = true
+
         detailsStackView.widthAnchor.constraint(equalToConstant: viewSize.width).isActive = true
 //        detailsStackView.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor).isActive = true
 

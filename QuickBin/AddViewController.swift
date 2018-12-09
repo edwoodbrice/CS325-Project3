@@ -11,29 +11,86 @@ import Photos
 import MapKit
 
 protocol AddingBinViewControllerDelegate : NSObjectProtocol {
-    func addViewControllerReturn(_ vc: AddViewController, createdBin: Bin)
+    func addViewControllerCreate(_ vc: AddViewController, createdBin: Bin)
+    func addViewControllerDelete(_ vc: AddViewController, deletedBin: Bin)
 }
-class AddViewController: NavigationBarAttachedViewController {
-
-//    private lazy var imagePickerController: UIImagePickerController = {
-//        let pickerController = UIImagePickerController()
-//        pickerController.delegate = self
-//        return pickerController
-//    }()
+class AddViewController: UITableViewController {
 
     weak var delegate : AddingBinViewControllerDelegate?
-    var userLocationCoordinate: CLLocationCoordinate2D!
+    var userLocationCoordinate: CLLocationCoordinate2D?
     var currentVisibleRegion: MKCoordinateRegion!
-    var selectedBinLocationCoordinate: CLLocationCoordinate2D?
+    var editingBin: Bin?
+
+    @IBOutlet private weak var binImageView: UIImageView!
+
+    @IBOutlet private weak var descriptionTextView: UITextView!
+    @IBOutlet private weak var latitudeLabel: UILabel!
+
+    @IBOutlet private weak var longitudeLabel: UILabel!
+
+    @IBOutlet private weak var currentLocationButton: UIButton!
+
+    @IBOutlet private weak var otherLocationButton: UIButton!
+
+    @IBOutlet private var binTypeButtonCollection: [UIButton]!
+    @IBOutlet private weak var deleteButtonCell: UITableViewCell!
+
+    @IBOutlet private weak var deleteButton: UIButton!
+
+    private weak var selectedButton: UIButton?
+    private var selectedBinLocationCoordinate: CLLocationCoordinate2D?
+
+    private var selectedType: Bin.BinType? {
+        guard let tag = self.selectedButton?.tag else { return nil }
+        return Bin.BinType.init(tag)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
+//        self.currentLocationButton.setBackgroundColor(.lightGray, for: .normal)
+//        self.currentLocationButton.setBackgroundColor(.darkGray, for: .highlighted)
+//        self.otherLocationButton.setBackgroundColor(.lightGray, for: .normal)
+//        self.otherLocationButton.setBackgroundColor(.darkGray, for: .highlighted)
+        if let editingBin = self.editingBin {
+            self.navigationItem.title = "Edit Bin"
+            // TODO: placeholder for selected type
+            self.binTypeButtonCollection.first {$0.tag == editingBin.type.numericValue}!.setTitleColor(.red, for: .normal)
+            self.selectedBinLocationCoordinate = editingBin.coordinate
+            self.binImageView.image = editingBin.image
+            self.descriptionTextView.text = editingBin.subtitle
+            self.deleteButton.setBackgroundColor(.red, for: .normal)
+            self.updateLocationLabels()
+        }
+        else {
+            self.deleteButtonCell.isHidden = true
+        }
         // Do any additional setup after loading the view.
     }
+    private func updateLocationLabels() {
+        self.latitudeLabel.text = String.init(format: "%.04f", self.selectedBinLocationCoordinate!.latitude)
+        self.longitudeLabel.text = String.init(format: "%.04f", self.selectedBinLocationCoordinate!.longitude)
+    }
+    @IBAction func typeButtonTapped(_ sender: UIButton) {
+        // TODO: placeholder for non-selected type
+        self.selectedButton?.setTitleColor(self.view.tintColor, for: .normal)
+        self.selectedButton = sender
+        // TODO: placeholder for selected type
+        sender.setTitleColor(.red, for: .normal)
+    }
+    @IBAction func currentLocationTapped(_ sender: UIButton) {
+        // TODO: Try to fetch current location if user did not fetch before.
+        guard let userLocation = self.userLocationCoordinate else {
+            let alertView = UIAlertController(title: "Error", message: "Current location is not available.", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "OK", style: .cancel))
+            self.present(alertView, animated: true)
+            return
+        }
+        self.selectedBinLocationCoordinate = userLocation
+        self.updateLocationLabels()
+    }
 
-    @IBAction private func pickImageButtonTapped(_ sender: UIButton) {
+
+    @IBAction func pickImageTapGesture(_ sender: UITapGestureRecognizer) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
 
@@ -61,11 +118,40 @@ class AddViewController: NavigationBarAttachedViewController {
         actionView.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         self.present(actionView, animated: true)
     }
-    @IBAction func cancelAddingBin(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true) {
-            // TODO: create a bin.
-//            self.delegate?.addViewControllerReturn(self, createdBin: Bin(.Recycle, location: self.selectedBinLocationCoordinate ?? userLocationCoordinate, image: "<#T##UIImage?#>", subtitle: "<#T##String?#>"))
+    
+
+
+    @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true)
+    }
+    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        guard let selectedType = self.selectedType else {
+            let alertView = UIAlertController(title: "Error", message: "Type is not set. Please select one type", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "OK", style: .cancel))
+            self.present(alertView, animated: true)
+            return
         }
+        guard let loc = self.selectedBinLocationCoordinate else {
+            let alertView = UIAlertController(title: "Error", message: "Location is not determined.", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "OK", style: .cancel))
+            self.present(alertView, animated: true)
+            return
+        }
+        self.dismiss(animated: true) {
+            self.delegate?.addViewControllerCreate(self, createdBin: Bin(selectedType, location: loc, image: self.binImageView.image, subtitle: self.descriptionTextView.text, identifier: self.editingBin?.identifier))
+        }
+    }
+
+    @IBAction func deleteButtonTapped(_ sender: UIButton) {
+        let alertView = UIAlertController(title: "Warning", message: "Do you want to remove this bin on the map? This operation cannot be undone.", preferredStyle: .alert)
+        alertView.addAction(UIAlertAction(title: "No", style: .cancel))
+        alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (_) in
+            self.dismiss(animated: true, completion: {
+                self.delegate?.addViewControllerDelete(self, deletedBin: self.editingBin!)
+            })
+        }))
+        self.present(alertView, animated: true)
+        return
     }
     private func getPictureFromCamera(completionHandler: @escaping () -> Void) {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -99,45 +185,14 @@ class AddViewController: NavigationBarAttachedViewController {
             self.present(alertView, animated: true)
         }
     }
-
-/*
-    private func choosePicture(from source: UIImagePickerControllerSourceType, completionHandler: @escaping () -> Void) {
-
-//        AVCaptureDevice.authorizationStatus(for: .audio)
-//        let authorizationStatus = source == .camera ? AVCaptureDevice.authorizationStatus(for: .video) :
-
-
-//        switch PHPhotoLibrary.authorizationStatus() {
-//        case .notDetermined:
-//            PHPhotoLibrary.requestAuthorization { status in
-//                if status == PHAuthorizationStatus.authorized {
-//                    pickingHandler()
-//                }
-//            }
-//        case .authorized:
-//            pickingHandler()
-//        default:
-//            let alertView = UIAlertController(title: "Error", message: "The permission to access photo library is not given. ", preferredStyle: .alert)
-//            alertView.addAction(.init(title: "OK", style: .cancel))
-//            self.present(alertView, animated: true)
-//        }
-    }
-*/
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let mvc = segue.destination as? MapViewController {
             mvc.previousRegion = self.currentVisibleRegion
+            mvc.userLocationCoordinate = self.userLocationCoordinate
             mvc.selectedLocationCallback = { selectedLocation in
-                // TODO: update textlabel if necessary.
-                 selectedLocation
+                print("Returned location: \(selectedLocation)")
+                self.selectedBinLocationCoordinate = selectedLocation
+                self.updateLocationLabels()
             }
         }
     }
@@ -146,11 +201,25 @@ class AddViewController: NavigationBarAttachedViewController {
 extension AddViewController : UIImagePickerControllerDelegate {
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            // considering scale it down to reduce memory usage.
             print("picked image: \(image)")
+            self.binImageView.image = image
         }
         picker.dismiss(animated: true)
     }
 }
-extension AddViewController : UINavigationControllerDelegate {
+extension AddViewController : UINavigationControllerDelegate, UITextViewDelegate {
+    // MARK: placeholder
+    func textViewDidEndEditing(_ textView: UITextView) {
 
+    }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+
+    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if self.tableView(self.tableView, cellForRowAt: indexPath).isHidden {
+            return 0
+        }
+        return super.tableView(tableView, heightForRowAt: indexPath)
+    }
 }
