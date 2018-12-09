@@ -92,10 +92,12 @@ class ViewController: UIViewController {
             location.distance(from: CLLocation(latitude: bin1.coordinate.latitude, longitude: bin1.coordinate.longitude)) < location.distance(from: CLLocation(latitude: bin2.coordinate.latitude, longitude: bin2.coordinate.longitude))
         }
         if let nearest = nearest {
+            self.mapView.showAnnotations([nearest], animated: true)
             self.mapView.selectAnnotation(nearest, animated: true)
         }
         else {
-            // TODO: not found?
+            self.mapView.deselectAnnotation(self.mapView.selectedAnnotations.first, animated: true)
+            // TODO: not found? A prompt?
         }
     }
     @IBOutlet weak var showNearestBinForType: UIButton!

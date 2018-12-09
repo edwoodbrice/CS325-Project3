@@ -26,7 +26,7 @@ class BinAnnotationView: MKAnnotationView {
                 self.binImage = newValue.image
                 self.subtitleForBin = newValue.subtitle
                 // report button is possibly nil but fine as it will inited in customInit.
-                self.reportButton?.setTitle(self.binAnnotation.builtIn ? "Report" : "Edit", for: .normal)
+                self.reportButton?.setTitle(newValue.builtIn ? "Report" : "Edit", for: .normal)
                 updateViewHeight()
             }
         }

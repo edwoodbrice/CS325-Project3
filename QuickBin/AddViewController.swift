@@ -54,7 +54,8 @@ class AddViewController: UITableViewController {
         if let editingBin = self.editingBin {
             self.navigationItem.title = "Edit Bin"
             // TODO: placeholder for selected type
-            self.binTypeButtonCollection.first {$0.tag == editingBin.type.numericValue}!.setTitleColor(.red, for: .normal)
+            self.selectedButton = self.binTypeButtonCollection.first {$0.tag == editingBin.type.numericValue}
+            self.selectedButton!.setTitleColor(.red, for: .normal)
             self.selectedBinLocationCoordinate = editingBin.coordinate
             self.binImageView.image = editingBin.image
             self.descriptionTextView.text = editingBin.subtitle
