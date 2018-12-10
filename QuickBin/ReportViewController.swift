@@ -16,10 +16,19 @@ class ReportViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.addGestureRecognizer({
+            let x = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyBoardByTapping(_:)))
+            x.cancelsTouchesInView = false
+            return x
+            }()
+        )
 
         // Do any additional setup after loading the view.
     }
 
+    @objc func dismissKeyBoardByTapping(_ sender: Any? = nil) {
+        self.view.endEditing(true)
+    }
     @IBAction func cancelReport(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
     }

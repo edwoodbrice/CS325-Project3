@@ -23,12 +23,12 @@ class Bin : NSObject, MKAnnotation {
         }
         var numericValue: Int {
             switch self {
-                case .Recycle:
-                    return 0
-                case .Compost:
-                    return 1
-                case .Trash:
-                    return 2
+            case .Recycle:
+                return 0
+            case .Compost:
+                return 1
+            case .Trash:
+                return 2
             }
         }
         init?(_ numericValue: Int) {
@@ -46,24 +46,18 @@ class Bin : NSObject, MKAnnotation {
     }
     public let type: BinType
     public var annotationImage: UIImage? {
-        switch self.type {
-        case .Recycle:
-            return UIImage(named: "Recycle")
-        default:
-            return nil
-        }
+        return UIImage(named: self.type.rawValue + (self.builtIn ? "" : "-user"))
     }
-    // details
     public var thumbnail: UIImage? {
         return self.image
     }
     public private(set) var imageName: String?
     public var image: UIImage? {
         get {
-        if let imageName = self.imageName, let resourcePath = Bundle.main.path(forResource: imageName, ofType: "jpg", inDirectory: "Images") {
-            return UIImage(contentsOfFile: resourcePath)
-        }
-        return self.storedImage
+            if let imageName = self.imageName, let resourcePath = Bundle.main.path(forResource: imageName, ofType: "jpg", inDirectory: "Images") {
+                return UIImage(contentsOfFile: resourcePath)
+            }
+            return self.storedImage
         }
         set {
             self.storedImage = newValue

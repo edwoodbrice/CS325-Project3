@@ -114,11 +114,12 @@ class BinAnnotationView: MKAnnotationView {
         self.descriptionLabel = descriptionLabel
 
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isHidden = true
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 6
         self.imageView = imageView
-
 
 //        var subviews: [UIView] = []
 //        let descriptionLabel = UILabel(frame: .zero)
@@ -136,12 +137,14 @@ class BinAnnotationView: MKAnnotationView {
 //        self.imageView.isHidden = true
 //        }
         let buttonHeight: CGFloat = 30
+        let buttonDistance: CGFloat = 10
+
 
         let buttonView = UIView(frame: .init(origin: .zero, size: .init(width: viewSize.width, height: buttonHeight)))
 //        buttonView.backgroundColor = .gray
 
         let navigationButton = UIButton(type: .custom)
-        navigationButton.frame = .init(origin: .zero, size: .init(width: viewSize.width/2, height: buttonHeight))
+        navigationButton.frame = .init(origin: .zero, size: .init(width: viewSize.width/2 - buttonDistance/2, height: buttonHeight))
         navigationButton.setTitle("Direction", for: UIControlState.normal)
         navigationButton.setTitleColor(.blue, for: UIControlState.normal)
         navigationButton.titleLabel?.font = navigationButton.titleLabel?.font.withSize(12)
@@ -151,7 +154,7 @@ class BinAnnotationView: MKAnnotationView {
 //        navigationButton.addTopBorder(color: .gray, width: 1)
 
         let reportButton = UIButton(type: .custom)
-        reportButton.frame = .init(origin: .init(x: viewSize.width/2, y: 0), size: .init(width: viewSize.width/2, height: buttonHeight))
+        reportButton.frame = .init(origin: .init(x: viewSize.width/2 + buttonDistance/2, y: 0), size: .init(width: viewSize.width/2 - buttonDistance/2, height: buttonHeight))
         reportButton.setTitle(self.binAnnotation.builtIn ? "Report" : "Edit", for: UIControlState.normal)
         reportButton.titleLabel?.font = reportButton.titleLabel?.font.withSize(12)
         reportButton.setTitleColor(.red, for: UIControlState.normal)
@@ -164,11 +167,20 @@ class BinAnnotationView: MKAnnotationView {
 
         buttonView.addSubview(navigationButton)
         buttonView.addSubview(reportButton)
+        let buttonUI = { (button: UIButton) in
+            button.setBackgroundColor(UIColor.init(white: 0.5, alpha: 0.1), for: .normal)
+            button.setBackgroundColor(UIColor.init(white: 0.5, alpha: 0.4), for: .highlighted)
+            button.layer.cornerRadius = 6
+            button.layer.masksToBounds = true
+        }
+        [navigationButton, reportButton].forEach(buttonUI)
+
 //        buttonView.translatesAutoresizingMaskIntoConstraints = false
 
 //        subviews.append(buttonView)
 
         let detailsStackView = UIStackView(arrangedSubviews: [self.descriptionLabel, self.imageView, buttonView])
+        detailsStackView.spacing = 8
         buttonView.heightAnchor.constraint(equalToConstant: buttonView.frame.size.height).isActive = true
 //        subviews.forEach { view in
 //            if (view is UIImageView == false) {

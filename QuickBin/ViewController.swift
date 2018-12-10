@@ -15,11 +15,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet private var suggestButtonCollection: [UIButton]!
 
-    private let defaultSpan: Double = 500
+    private let userDataPath = "\(NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0])/BinSpots.plist"
 
     private lazy var userStoredSpots: [String : Bin] = {
         guard
-            let x = NSDictionary.init(contentsOfFile: "\(NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0])/BinSpots.plist") as? [String : [String : Any]] else { return [:]}
+            let x = NSDictionary.init(contentsOfFile: userDataPath) as? [String : [String : Any]] else { return [:]}
         return [String : Bin](uniqueKeysWithValues: zip(x.keys, x.flatMap {Bin.init($1, builtIn: false, identifier: $0)}))
     }()
     private lazy var locationManager : CLLocationManager = {
@@ -50,7 +50,7 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     private func firstPresenting() {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(CLLocation(latitude: 42.3899, longitude: -72.5286).coordinate, defaultSpan, defaultSpan)
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(CLLocation(latitude: 42.3899, longitude: -72.5286).coordinate, 500, 500)
         self.mapView.setRegion(coordinateRegion, animated: false)
         // TODO: user last used pref. and location. (Read from preferences)
 
@@ -70,18 +70,24 @@ class ViewController: UIViewController {
             }
             return
         }
-        self.mapView.showsUserLocation = true
+        if let loc = self.mapView.userLocation.location, self.locationUpdateCompletionHandler == nil {
+            self.mapView.setCenter(loc.coordinate, animated: true)
+        }
+        else {
+            self.mapView.showsUserLocation = true
+        }
         self.locationManager.requestLocation()
     }
 
     @IBAction func showNearestBinForType(_ sender: UIButton) {
         guard let location = self.mapView.userLocation.location else {
-            self.locateSelf(nil)
-            self.locationUpdateCompletionHandler = { _ in
+            self.locationUpdateCompletionHandler = { [unowned self] _ in
                 self.showNearestBinForType(sender)
             }
+            self.locateSelf(nil)
             return
         }
+        self.locationUpdateCompletionHandler = nil
         let requestedType = Bin.BinType.init(sender.tag)!
         let nearest = self.mapView.annotations.filter { annotation in
             if let bin = annotation as? Bin, bin.type == requestedType {
@@ -163,9 +169,15 @@ extension ViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 //        print("Updated Locations: \(locations.last!)")
         let userLocationCoordinate: CLLocationCoordinate2D = (locations.last?.coordinate)!
-        self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(userLocationCoordinate, defaultSpan, defaultSpan), animated: true)
-        self.locationUpdateCompletionHandler?(userLocationCoordinate)
-        self.locationUpdateCompletionHandler = nil
+        if let handler = self.locationUpdateCompletionHandler {
+            handler(userLocationCoordinate)
+            self.locationUpdateCompletionHandler = nil
+        }
+        else {
+           self.mapView.setCenter(userLocationCoordinate, animated: true)
+//            self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(, defaultSpan, defaultSpan), animated: true)
+        }
+
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         self.locationUpdateCompletionHandler = nil
@@ -181,14 +193,21 @@ extension ViewController : AddingBinViewControllerDelegate {
         }
         self.mapView.addAnnotation(createdBin)
         self.userStoredSpots[createdBin.identifier] = createdBin
+        self.mapView.showAnnotations([createdBin], animated: true)
+        self.mapView.selectAnnotation(createdBin, animated: true)
         // TODO: Write data to disk.
+//        saveData()
     }
 
     func addViewControllerDelete(_ vc: AddViewController, deletedBin: Bin) {
         self.mapView.removeAnnotation(deletedBin)
         self.userStoredSpots.removeValue(forKey: deletedBin.identifier)
         // TODO: Write data to disk.
+//        saveData()
     }
+//    func saveData() {
+//        (self.userStoredSpots.mapValues {$0.archivedPropertyList.1} as NSDictionary).write(toFile: userDataPath, atomically: true)
+//    }
 
 }
 

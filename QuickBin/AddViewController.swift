@@ -24,9 +24,7 @@ class AddViewController: UITableViewController {
     @IBOutlet private weak var binImageView: UIImageView!
 
     @IBOutlet private weak var descriptionTextView: UITextView!
-    @IBOutlet private weak var latitudeLabel: UILabel!
-
-    @IBOutlet private weak var longitudeLabel: UILabel!
+    @IBOutlet private weak var locationCoordinateLabel: UILabel!
 
     @IBOutlet private weak var currentLocationButton: UIButton!
 
@@ -47,15 +45,21 @@ class AddViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.currentLocationButton.setBackgroundColor(.lightGray, for: .normal)
+        self.view.addGestureRecognizer({
+            let x = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyBoardByTapping(_:)))
+            x.cancelsTouchesInView = false
+            return x
+            }()
+        )
+
+        self.currentLocationButton.setBackgroundColor(self.view.tintColor, for: .normal)
 //        self.currentLocationButton.setBackgroundColor(.darkGray, for: .highlighted)
-//        self.otherLocationButton.setBackgroundColor(.lightGray, for: .normal)
+        self.otherLocationButton.setBackgroundColor(UIColor.init(white: 0.5, alpha: 0.1), for: .normal)
 //        self.otherLocationButton.setBackgroundColor(.darkGray, for: .highlighted)
         if let editingBin = self.editingBin {
             self.navigationItem.title = "Edit Bin"
-            // TODO: placeholder for selected type
             self.selectedButton = self.binTypeButtonCollection.first {$0.tag == editingBin.type.numericValue}
-            self.selectedButton!.setTitleColor(.red, for: .normal)
+            self.selectedButton!.setImage(UIImage(named: editingBin.type.rawValue + "-selected") , for: .normal)
             self.selectedBinLocationCoordinate = editingBin.coordinate
             self.binImageView.image = editingBin.image
             self.descriptionTextView.text = editingBin.subtitle
@@ -68,15 +72,20 @@ class AddViewController: UITableViewController {
         // Do any additional setup after loading the view.
     }
     private func updateLocationLabels() {
-        self.latitudeLabel.text = String.init(format: "%.04f", self.selectedBinLocationCoordinate!.latitude)
-        self.longitudeLabel.text = String.init(format: "%.04f", self.selectedBinLocationCoordinate!.longitude)
+        self.locationCoordinateLabel.text = String.init(format: "%.04f, %.04f", self.selectedBinLocationCoordinate!.latitude, self.selectedBinLocationCoordinate!.longitude)
     }
     @IBAction func typeButtonTapped(_ sender: UIButton) {
+        guard self.selectedButton !== sender else {
+            return
+        }
         // TODO: placeholder for non-selected type
-        self.selectedButton?.setTitleColor(self.view.tintColor, for: .normal)
+        self.selectedButton?.setImage(UIImage(named: Bin.BinType.init(self.selectedButton!.tag)!.rawValue + " Button"), for: .normal)
+//        self.selectedButton?.setTitleColor(self.view.tintColor, for: .normal)
         self.selectedButton = sender
         // TODO: placeholder for selected type
-        sender.setTitleColor(.red, for: .normal)
+        sender.setImage(UIImage(named: Bin.BinType.init(sender.tag)!.rawValue + "-selected"), for: .normal)
+
+//        sender.setTitleColor(.red, for: .normal)
     }
     @IBAction func currentLocationTapped(_ sender: UIButton) {
         // TODO: Try to fetch current location if user did not fetch before.
@@ -92,6 +101,10 @@ class AddViewController: UITableViewController {
 
 
     @IBAction func pickImageTapGesture(_ sender: UITapGestureRecognizer) {
+        guard !self.descriptionTextView.isFirstResponder else {
+            self.dismissKeyBoardByTapping()
+            return
+        }
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
 
@@ -119,13 +132,16 @@ class AddViewController: UITableViewController {
         actionView.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         self.present(actionView, animated: true)
     }
-    
-
+    @objc func dismissKeyBoardByTapping(_ sender: Any? = nil) {
+        self.view.endEditing(true)
+    }
 
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        self.dismissKeyBoardByTapping()
         self.dismiss(animated: true)
     }
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        self.dismissKeyBoardByTapping()
         guard let selectedType = self.selectedType else {
             let alertView = UIAlertController(title: "Error", message: "Type is not set. Please select one type", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .cancel))

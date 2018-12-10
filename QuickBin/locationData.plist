@@ -24,5 +24,41 @@
 		<key>Image</key>
 		<string>BinDemo2</string>
 	</dict>
+	<key>New item - 2 - 2</key>
+	<dict>
+		<key>Location</key>
+		<string>42.3908,-72.5228</string>
+		<key>Type</key>
+		<string>Compost</string>
+		<key>Image</key>
+		<string>BinDemo3</string>
+	</dict>
+	<key>New item - 2 - 3</key>
+	<dict>
+		<key>Location</key>
+		<string>42.3905,-72.5225</string>
+		<key>Type</key>
+		<string>Trash</string>
+		<key>Description</key>
+		<string>Near the street.</string>
+		<key>Image</key>
+		<string>BinDemo4</string>
+	</dict>
+	<key>New item - 2 - 4</key>
+	<dict>
+		<key>Location</key>
+		<string>42.390302,-72.523505</string>
+		<key>Type</key>
+		<string>Trash</string>
+	</dict>
+	<key>New item - 2 - 5</key>
+	<dict>
+		<key>Location</key>
+		<string>42.3898,-72.5281</string>
+		<key>Type</key>
+		<string>Compost</string>
+		<key>Description</key>
+		<string>Near the entrance.</string>
+	</dict>
 </dict>
 </plist>

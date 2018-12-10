@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "Trash Button.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Recycle.png",
       "scale" : "2x"
     },
     {
