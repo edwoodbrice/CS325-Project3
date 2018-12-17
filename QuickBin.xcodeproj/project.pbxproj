@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EA2655DF21BACCF60083367B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2655DE21BACCF60083367B /* MapViewController.swift */; };
 		EA2655E121BACDB50083367B /* NavigationBarAttachedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2655E021BACDB50083367B /* NavigationBarAttachedViewController.swift */; };
+		EA34A5E921C7D1D600207725 /* Tutorial in Resources */ = {isa = PBXBuildFile; fileRef = EA34A5E821C7D1D600207725 /* Tutorial */; };
 		EA4A835C21B9C3D2004B2412 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = EA4A835B21B9C3D2004B2412 /* Images */; };
 		EA63E1E12199ADDC000D7D0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA63E1E02199ADDC000D7D0C /* AppDelegate.swift */; };
 		EA63E1E32199ADDC000D7D0C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA63E1E22199ADDC000D7D0C /* ViewController.swift */; };
@@ -17,12 +18,13 @@
 		EA63E1EB2199ADDC000D7D0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA63E1E92199ADDC000D7D0C /* LaunchScreen.storyboard */; };
 		EA63E1F62199ADDC000D7D0C /* QuickBinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA63E1F52199ADDC000D7D0C /* QuickBinTests.swift */; };
 		EA63E2012199ADDC000D7D0C /* QuickBinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA63E2002199ADDC000D7D0C /* QuickBinUITests.swift */; };
-		EA892D2021B83E54001E71DF /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA892D1F21B83E54001E71DF /* SplashViewController.swift */; };
+		EA892D2021B83E54001E71DF /* SplashPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA892D1F21B83E54001E71DF /* SplashPageViewController.swift */; };
 		EA892D2221B84219001E71DF /* locationData.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA892D2121B84219001E71DF /* locationData.plist */; };
 		EA892D2421B84288001E71DF /* DataKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA892D2321B84288001E71DF /* DataKeys.swift */; };
 		EA892D2621B843C3001E71DF /* Bin.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA892D2521B843C3001E71DF /* Bin.swift */; };
 		EA892D2821B8A0DF001E71DF /* BinAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA892D2721B8A0DF001E71DF /* BinAnnotationView.swift */; };
 		EAB6999121BC84C0003B6587 /* UIButton+HighlightBgColor.m in Sources */ = {isa = PBXBuildFile; fileRef = EAB6999021BC84BF003B6587 /* UIButton+HighlightBgColor.m */; };
+		EAD428CC21C7B6D200A09C5B /* TutorialImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD428CB21C7B6D200A09C5B /* TutorialImageViewController.swift */; };
 		EADF789621BD8A23000E7C87 /* SpinLoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADF789521BD8A23000E7C87 /* SpinLoadingButton.swift */; };
 		EAE0AA4321BBEB5400AB61D4 /* AESEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE0AA4221BBEB5400AB61D4 /* AESEngine.m */; };
 		EAE0AA4621BC3A0E00AB61D4 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE0AA4521BC3A0E00AB61D4 /* ReportViewController.swift */; };
@@ -49,6 +51,8 @@
 /* Begin PBXFileReference section */
 		EA2655DE21BACCF60083367B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		EA2655E021BACDB50083367B /* NavigationBarAttachedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarAttachedViewController.swift; sourceTree = "<group>"; };
+		EA34A5E821C7D1D600207725 /* Tutorial */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tutorial; sourceTree = "<group>"; };
+		EA34A5EA21C7D1E500207725 /* QuickBin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QuickBin-Bridging-Header.h"; sourceTree = "<group>"; };
 		EA4A835B21B9C3D2004B2412 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		EA63E1DD2199ADDC000D7D0C /* QuickBin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickBin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA63E1E02199ADDC000D7D0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,15 +67,15 @@
 		EA63E1FC2199ADDC000D7D0C /* QuickBinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickBinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA63E2002199ADDC000D7D0C /* QuickBinUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickBinUITests.swift; sourceTree = "<group>"; };
 		EA63E2022199ADDC000D7D0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EA892D1F21B83E54001E71DF /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		EA892D1F21B83E54001E71DF /* SplashPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashPageViewController.swift; sourceTree = "<group>"; };
 		EA892D2121B84219001E71DF /* locationData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = locationData.plist; sourceTree = "<group>"; };
 		EA892D2321B84288001E71DF /* DataKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataKeys.swift; sourceTree = "<group>"; };
 		EA892D2521B843C3001E71DF /* Bin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bin.swift; sourceTree = "<group>"; };
 		EA892D2721B8A0DF001E71DF /* BinAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinAnnotationView.swift; sourceTree = "<group>"; };
 		EAB6998F21BC84BF003B6587 /* UIButton+HighlightBgColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+HighlightBgColor.h"; sourceTree = "<group>"; };
 		EAB6999021BC84BF003B6587 /* UIButton+HighlightBgColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HighlightBgColor.m"; sourceTree = "<group>"; };
+		EAD428CB21C7B6D200A09C5B /* TutorialImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialImageViewController.swift; sourceTree = "<group>"; };
 		EADF789521BD8A23000E7C87 /* SpinLoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinLoadingButton.swift; sourceTree = "<group>"; };
-		EAE0AA4121BBEB5300AB61D4 /* QuickBin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QuickBin-Bridging-Header.h"; sourceTree = "<group>"; };
 		EAE0AA4221BBEB5400AB61D4 /* AESEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESEngine.m; sourceTree = "<group>"; };
 		EAE0AA4421BBEB7300AB61D4 /* AESEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AESEngine.h; sourceTree = "<group>"; };
 		EAE0AA4521BC3A0E00AB61D4 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -135,7 +139,8 @@
 				EAE0AA4521BC3A0E00AB61D4 /* ReportViewController.swift */,
 				EAF91A4621BA913100A8C386 /* AddViewController.swift */,
 				EA2655DE21BACCF60083367B /* MapViewController.swift */,
-				EA892D1F21B83E54001E71DF /* SplashViewController.swift */,
+				EA892D1F21B83E54001E71DF /* SplashPageViewController.swift */,
+				EAD428CB21C7B6D200A09C5B /* TutorialImageViewController.swift */,
 				EA892D2321B84288001E71DF /* DataKeys.swift */,
 				EADF789521BD8A23000E7C87 /* SpinLoadingButton.swift */,
 				EA63E1E72199ADDC000D7D0C /* Assets.xcassets */,
@@ -143,6 +148,7 @@
 				EA63E1EC2199ADDC000D7D0C /* Info.plist */,
 				EA892D2121B84219001E71DF /* locationData.plist */,
 				EAB6999221BC84C7003B6587 /* Supporting Files */,
+				EA34A5E821C7D1D600207725 /* Tutorial */,
 				EA4A835B21B9C3D2004B2412 /* Images */,
 			);
 			path = QuickBin;
@@ -169,7 +175,7 @@
 		EAB6999221BC84C7003B6587 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				EAE0AA4121BBEB5300AB61D4 /* QuickBin-Bridging-Header.h */,
+				EA34A5EA21C7D1E500207725 /* QuickBin-Bridging-Header.h */,
 				EAE0AA4421BBEB7300AB61D4 /* AESEngine.h */,
 				EAE0AA4221BBEB5400AB61D4 /* AESEngine.m */,
 				EAB6998F21BC84BF003B6587 /* UIButton+HighlightBgColor.h */,
@@ -286,6 +292,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA34A5E921C7D1D600207725 /* Tutorial in Resources */,
 				EA4A835C21B9C3D2004B2412 /* Images in Resources */,
 				EA63E1EB2199ADDC000D7D0C /* LaunchScreen.storyboard in Resources */,
 				EA63E1E82199ADDC000D7D0C /* Assets.xcassets in Resources */,
@@ -315,6 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAD428CC21C7B6D200A09C5B /* TutorialImageViewController.swift in Sources */,
 				EA892D2621B843C3001E71DF /* Bin.swift in Sources */,
 				EAE0AA4321BBEB5400AB61D4 /* AESEngine.m in Sources */,
 				EA892D2821B8A0DF001E71DF /* BinAnnotationView.swift in Sources */,
@@ -322,7 +330,7 @@
 				EA2655E121BACDB50083367B /* NavigationBarAttachedViewController.swift in Sources */,
 				EAE0AA4621BC3A0E00AB61D4 /* ReportViewController.swift in Sources */,
 				EAF91A4721BA913100A8C386 /* AddViewController.swift in Sources */,
-				EA892D2021B83E54001E71DF /* SplashViewController.swift in Sources */,
+				EA892D2021B83E54001E71DF /* SplashPageViewController.swift in Sources */,
 				EA63E1E32199ADDC000D7D0C /* ViewController.swift in Sources */,
 				EA63E1E12199ADDC000D7D0C /* AppDelegate.swift in Sources */,
 				EA892D2421B84288001E71DF /* DataKeys.swift in Sources */,

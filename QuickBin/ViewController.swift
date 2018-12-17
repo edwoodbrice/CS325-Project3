@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet private var suggestButtonCollection: [UIButton]!
 
+    private var maskView : UIView?
+
     private let userDataPath = "\(NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0])/BinSpots.plist"
 
     private lazy var userStoredSpots: [String : Bin] = {
@@ -31,13 +33,16 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if UserDefaults.standard.bool(forKey: PreferencesKeys.SplashScreenShownKey) || true {
+        if UserDefaults.standard.bool(forKey: PreferencesKeys.SplashScreenShownKey)/* && false */{
             firstPresenting()
         }
         else {
-            print("Showing splash page...")
+            let view = UIView(frame: UIScreen.main.bounds)
+            view.backgroundColor = .white
+            view.isOpaque = true
+            self.view.addSubview(view)
+            self.maskView = view
         }
-
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -48,6 +53,14 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if let maskView = maskView {
+            self.performSegue(withIdentifier: "ToTutorial", sender: {
+                self.maskView = nil
+                maskView.removeFromSuperview()
+                UserDefaults.standard.set(true, forKey: PreferencesKeys.SplashScreenShownKey)
+                self.firstPresenting()
+            })
+        }
     }
     private func firstPresenting() {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(CLLocation(latitude: 42.3899, longitude: -72.5286).coordinate, 500, 500)
@@ -106,9 +119,6 @@ class ViewController: UIViewController {
             // TODO: not found? A prompt?
         }
     }
-    @IBOutlet weak var showNearestBinForType: UIButton!
-
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navi = segue.destination as? UINavigationController {
             if let addvc = navi.viewControllers.first as? AddViewController {
@@ -120,6 +130,9 @@ class ViewController: UIViewController {
             else if let rvc = navi.viewControllers.first as? ReportViewController {
                 rvc.previousVC = self
             }
+        }
+        else if let tvc = segue.destination as? SplashPageViewController {
+            tvc.finishedBlock = sender as? (() -> Void)
         }
     }
 }
@@ -139,7 +152,6 @@ extension ViewController : MKMapViewDelegate {
         annotationView.annotation = annotation
         
         return annotationView
-
     }
 }
 extension ViewController : BinAnnotationViewActionDelegate {
@@ -174,7 +186,7 @@ extension ViewController : CLLocationManagerDelegate {
             self.locationUpdateCompletionHandler = nil
         }
         else {
-           self.mapView.setCenter(userLocationCoordinate, animated: true)
+//           self.mapView.setCenter(userLocationCoordinate, animated: true)
 //            self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(, defaultSpan, defaultSpan), animated: true)
         }
 
@@ -200,8 +212,20 @@ extension ViewController : AddingBinViewControllerDelegate {
     }
 
     func addViewControllerDelete(_ vc: AddViewController, deletedBin: Bin) {
-        self.mapView.removeAnnotation(deletedBin)
         self.userStoredSpots.removeValue(forKey: deletedBin.identifier)
+        let annotationView = self.mapView.view(for: deletedBin)!
+        let originalAlpha = annotationView.alpha
+        let originalTransform = annotationView.transform
+        UIView.animate(withDuration: 0.2,
+                       animations: {
+                        annotationView.alpha = 0
+                        annotationView.transform = CGAffineTransform.init(scaleX: 0.01, y: 0.01)
+
+        }) { (_) in
+            self.mapView.removeAnnotation(deletedBin)
+            annotationView.alpha = originalAlpha
+            annotationView.transform = originalTransform
+        }
         // TODO: Write data to disk.
 //        saveData()
     }

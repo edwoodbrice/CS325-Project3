@@ -82,7 +82,6 @@ class AddViewController: UITableViewController {
         self.selectedButton?.setImage(UIImage(named: Bin.BinType.init(self.selectedButton!.tag)!.rawValue + " Button"), for: .normal)
 //        self.selectedButton?.setTitleColor(self.view.tintColor, for: .normal)
         self.selectedButton = sender
-        // TODO: placeholder for selected type
         sender.setImage(UIImage(named: Bin.BinType.init(sender.tag)!.rawValue + "-selected"), for: .normal)
 
 //        sender.setTitleColor(.red, for: .normal)
@@ -234,6 +233,7 @@ extension AddViewController : UINavigationControllerDelegate, UITextViewDelegate
 
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // TODO: variable layout
         if self.tableView(self.tableView, cellForRowAt: indexPath).isHidden {
             return 0
         }
