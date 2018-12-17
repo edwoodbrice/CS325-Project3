@@ -18,14 +18,14 @@ struct PreferencesKeys {
     public static let SplashScreenShownKey = "SplashScreenShown"
 }
 struct LocalizedString {
-    public static let locationServiceIsNotAvailableInMapView = "Location Services is not available. Please go to settings and turn on location services to determine current location."
+    public static let locationServiceIsNotAvailableInMapView = "Location Services are not available. Please go to your iPhone Settings and turn on Location Services to enable QuickBin to determine your current location."
     public static let userDidNotSelectAnyReasonsWhenReportABin = "You must select a reason to report."
-    public static let userDidNotTypeAnythingInCommentWhenOtherIsSelectedWhenReport = "You must explain in comment if you choose other reasons."
-    public static let reportSubmittedSuccessfullyPrompt = "The report is submitted. Thank you."
-    public static let userDidNotSelectATypeWhenAddBin = "Type is not set. Please select one type"
-    public static let userDidNotPickLocationWhenAddBin = "Location is not determined."
-    public static let warningBeforeRemovingBin = "Do you want to remove this bin on the map? This operation cannot be undone."
-    public static let permissionForCameraIsNotGiven = "The permission to access camera is not given. "
-    public static let permissionForPhotoLibraryIsNotGiven = "The permission to access photo library is not given. "
-    public static let currentLocationIsNotAvailableWhenAddBin = "Current location is not available."
+    public static let userDidNotTypeAnythingInCommentWhenOtherIsSelectedWhenReport = "You must explain your reason to report the bin in the comment section."
+    public static let reportSubmittedSuccessfullyPrompt = "The report was submitted. Thank you!"
+    public static let userDidNotSelectATypeWhenAddBin = "The bin type (recycling, composting, or trash) was not set. Please select a bin type."
+    public static let userDidNotPickLocationWhenAddBin = "Please select your location. You can use your current location or use the map to pick another location."
+    public static let warningBeforeRemovingBin = "Do you want to remove this bin? This cannot be undone."
+    public static let permissionForCameraIsNotGiven = "QuickBin does not have access to your camera. To take an image, go to your iPhone Settings and enable the camera for QuickBin."
+    public static let permissionForPhotoLibraryIsNotGiven = "QuickBin does not have access to your photo library. To access an image, go to your iPhone Settings and enable photo library access for QuickBin."
+    public static let currentLocationIsNotAvailableWhenAddBin = "Your current location could not be determined. Try again later or manually set it using the Other Location option."
 }
