@@ -93,7 +93,7 @@ class AddViewController: UITableViewController {
     @IBAction func currentLocationTapped(_ sender: UIButton) {
         // TODO: Try to fetch current location if user did not fetch before.
         guard let userLocation = self.userLocationCoordinate else {
-            let alertView = UIAlertController(title: "Error", message: "Current location is not available.", preferredStyle: .alert)
+            let alertView = UIAlertController(title: "Error", message: LocalizedString.currentLocationIsNotAvailableWhenAddBin, preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .cancel))
             self.present(alertView, animated: true)
             return
@@ -120,6 +120,7 @@ class AddViewController: UITableViewController {
                 }
             }
             else {
+                // simulator only.
                 let alert = UIAlertController(title: "Error", message: "Camera is not available on this device.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel))
                 self.present(alert, animated: true)
@@ -146,13 +147,13 @@ class AddViewController: UITableViewController {
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         self.dismissKeyBoardByTapping()
         guard let selectedType = self.selectedType else {
-            let alertView = UIAlertController(title: "Error", message: "Type is not set. Please select one type", preferredStyle: .alert)
+            let alertView = UIAlertController(title: "Error", message: LocalizedString.userDidNotSelectATypeWhenAddBin, preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .cancel))
             self.present(alertView, animated: true)
             return
         }
         guard let loc = self.selectedBinLocationCoordinate else {
-            let alertView = UIAlertController(title: "Error", message: "Location is not determined.", preferredStyle: .alert)
+            let alertView = UIAlertController(title: "Error", message: LocalizedString.userDidNotPickLocationWhenAddBin, preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .cancel))
             self.present(alertView, animated: true)
             return
@@ -163,7 +164,7 @@ class AddViewController: UITableViewController {
     }
 
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
-        let alertView = UIAlertController(title: "Warning", message: "Do you want to remove this bin on the map? This operation cannot be undone.", preferredStyle: .alert)
+        let alertView = UIAlertController(title: "Warning", message: LocalizedString.warningBeforeRemovingBin, preferredStyle: .alert)
         alertView.addAction(UIAlertAction(title: "No", style: .cancel))
         alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (_) in
             self.dismiss(animated: true, completion: {
@@ -184,7 +185,7 @@ class AddViewController: UITableViewController {
         case .authorized:
             completionHandler()
         default:
-            let alertView = UIAlertController(title: "Error", message: "The permission to access camera is not given. ", preferredStyle: .alert)
+            let alertView = UIAlertController(title: "Error", message: LocalizedString.permissionForCameraIsNotGiven, preferredStyle: .alert)
             alertView.addAction(.init(title: "OK", style: .cancel))
             self.present(alertView, animated: true)
         }
@@ -200,7 +201,7 @@ class AddViewController: UITableViewController {
         case .authorized:
             completionHandler()
         default:
-            let alertView = UIAlertController(title: "Error", message: "The permission to access photo library is not given. ", preferredStyle: .alert)
+            let alertView = UIAlertController(title: "Error", message: LocalizedString.permissionForPhotoLibraryIsNotGiven, preferredStyle: .alert)
             alertView.addAction(.init(title: "OK", style: .cancel))
             self.present(alertView, animated: true)
         }
@@ -222,7 +223,6 @@ extension AddViewController : UIImagePickerControllerDelegate {
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             // considering scale it down to reduce memory usage.
-            print("picked image: \(image)")
             self.binImageView.image = image
             self.imageForBin = image
         }
@@ -230,15 +230,13 @@ extension AddViewController : UIImagePickerControllerDelegate {
     }
 }
 extension AddViewController : UINavigationControllerDelegate, UITextViewDelegate {
-    // MARK: placeholder
-    func textViewDidEndEditing(_ textView: UITextView) {
-
-    }
-    func textViewDidBeginEditing(_ textView: UITextView) {
-
-    }
+//    func textViewDidEndEditing(_ textView: UITextView) {
+//
+//    }
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//
+//    }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // TODO: variable layout
         if self.tableView(self.tableView, cellForRowAt: indexPath).isHidden {
             return 0
         }

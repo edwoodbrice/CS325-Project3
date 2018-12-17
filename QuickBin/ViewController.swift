@@ -77,7 +77,7 @@ class ViewController: UIViewController {
                 locationManager.requestWhenInUseAuthorization()
             }
             else {
-                let alertView = UIAlertController(title: "Error", message: "Location Services is not available. Please go to settings and turn on location services to determine current location.", preferredStyle: .alert)
+                let alertView = UIAlertController(title: "Error", message: LocalizedString.locationServiceIsNotAvailableInMapView, preferredStyle: .alert)
                 alertView.addAction(.init(title: "OK", style: .cancel))
                 self.present(alertView, animated: true)
             }

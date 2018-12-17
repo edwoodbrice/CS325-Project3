@@ -34,19 +34,19 @@ class ReportViewController: UITableViewController {
     }
     @IBAction func submitReport(_ sender: UIBarButtonItem) {
         guard let selectedRow = self.tableView.indexPathForSelectedRow else {
-            let alertView = UIAlertController(title: "Error", message: "You must select a reason to report.", preferredStyle: .alert)
+            let alertView = UIAlertController(title: "Error", message: LocalizedString.userDidNotSelectAnyReasonsWhenReportABin, preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .cancel))
             self.present(alertView, animated: true)
             return
         }
         guard selectedRow.row != 2 || !self.textView.text.isEmpty else {
-            let alertView = UIAlertController(title: "Error", message: "You must explain in comment if you choose other reasons.", preferredStyle: .alert)
+            let alertView = UIAlertController(title: "Error", message: LocalizedString.userDidNotTypeAnythingInCommentWhenOtherIsSelectedWhenReport, preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .cancel))
             self.present(alertView, animated: true)
             return
         }
         self.dismiss(animated: true) {
-            let alertView = UIAlertController(title: "Success", message: "The report is submitted. Thank you.", preferredStyle: .alert)
+            let alertView = UIAlertController(title: "Success", message: LocalizedString.reportSubmittedSuccessfullyPrompt, preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .cancel))
 
             self.previousVC.present(alertView, animated: true)

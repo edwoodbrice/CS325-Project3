@@ -17,3 +17,15 @@ struct PreferencesKeys {
     public static let lastLocationKey = "LastLocation"
     public static let SplashScreenShownKey = "SplashScreenShown"
 }
+struct LocalizedString {
+    public static let locationServiceIsNotAvailableInMapView = "Location Services is not available. Please go to settings and turn on location services to determine current location."
+    public static let userDidNotSelectAnyReasonsWhenReportABin = "You must select a reason to report."
+    public static let userDidNotTypeAnythingInCommentWhenOtherIsSelectedWhenReport = "You must explain in comment if you choose other reasons."
+    public static let reportSubmittedSuccessfullyPrompt = "The report is submitted. Thank you."
+    public static let userDidNotSelectATypeWhenAddBin = "Type is not set. Please select one type"
+    public static let userDidNotPickLocationWhenAddBin = "Location is not determined."
+    public static let warningBeforeRemovingBin = "Do you want to remove this bin on the map? This operation cannot be undone."
+    public static let permissionForCameraIsNotGiven = "The permission to access camera is not given. "
+    public static let permissionForPhotoLibraryIsNotGiven = "The permission to access photo library is not given. "
+    public static let currentLocationIsNotAvailableWhenAddBin = "Current location is not available."
+}
