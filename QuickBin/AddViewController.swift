@@ -37,6 +37,7 @@ class AddViewController: UITableViewController {
 
     private weak var selectedButton: UIButton?
     private var selectedBinLocationCoordinate: CLLocationCoordinate2D?
+    private var imageForBin: UIImage?
 
     private var selectedType: Bin.BinType? {
         guard let tag = self.selectedButton?.tag else { return nil }
@@ -61,7 +62,10 @@ class AddViewController: UITableViewController {
             self.selectedButton = self.binTypeButtonCollection.first {$0.tag == editingBin.type.numericValue}
             self.selectedButton!.setImage(UIImage(named: editingBin.type.rawValue + "-selected") , for: .normal)
             self.selectedBinLocationCoordinate = editingBin.coordinate
-            self.binImageView.image = editingBin.image
+            if let image = editingBin.image {
+                self.imageForBin = image
+                self.binImageView.image = image
+            }
             self.descriptionTextView.text = editingBin.subtitle
             self.deleteButton.setBackgroundColor(.red, for: .normal)
             self.updateLocationLabels()
@@ -154,7 +158,7 @@ class AddViewController: UITableViewController {
             return
         }
         self.dismiss(animated: true) {
-            self.delegate?.addViewControllerCreate(self, createdBin: Bin(selectedType, location: loc, image: self.binImageView.image, subtitle: self.descriptionTextView.text, identifier: self.editingBin?.identifier))
+            self.delegate?.addViewControllerCreate(self, createdBin: Bin(selectedType, location: loc, image: self.imageForBin, subtitle: self.descriptionTextView.text, identifier: self.editingBin?.identifier))
         }
     }
 
@@ -220,6 +224,7 @@ extension AddViewController : UIImagePickerControllerDelegate {
             // considering scale it down to reduce memory usage.
             print("picked image: \(image)")
             self.binImageView.image = image
+            self.imageForBin = image
         }
         picker.dismiss(animated: true)
     }
@@ -236,6 +241,10 @@ extension AddViewController : UINavigationControllerDelegate, UITextViewDelegate
         // TODO: variable layout
         if self.tableView(self.tableView, cellForRowAt: indexPath).isHidden {
             return 0
+        }
+        // section 3
+        if indexPath.section == 2 {
+            return self.view.bounds.size.width
         }
         return super.tableView(tableView, heightForRowAt: indexPath)
     }
