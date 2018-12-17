@@ -112,6 +112,10 @@ class AddViewController: UITableViewController {
         imagePickerController.delegate = self
 
         let actionView = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        // TODO: Show popover controller at the center.
+        actionView.popoverPresentationController?.sourceRect = .init(origin: .init(x: self.view.bounds.size.width/2, y: 0), size: .zero)
+        actionView.popoverPresentationController?.sourceView = sender.view
+        actionView.popoverPresentationController?.permittedArrowDirections = []
         actionView.addAction(UIAlertAction(title: "Take a picture", style: .default, handler: { (_) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 imagePickerController.sourceType = .camera
