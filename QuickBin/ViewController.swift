@@ -33,7 +33,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if UserDefaults.standard.bool(forKey: PreferencesKeys.SplashScreenShownKey)/* && false */{
+        if UserDefaults.standard.bool(forKey: PreferencesKeys.SplashScreenShownKey) && false {
             firstPresenting()
         }
         else {
