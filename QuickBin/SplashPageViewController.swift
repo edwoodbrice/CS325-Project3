@@ -12,12 +12,12 @@ class SplashPageViewController: UIPageViewController, UIPageViewControllerDataSo
 
     var finishedBlock: (() -> Void)!
     private lazy var totalTutorialVC = [
-        generateTutorialImageVCWithImage(0, description: "Welcome to QuickBin! QuickBin is a convenient app to help you find nearest bin. Scroll to next page to go over this tutorial."),
-        generateTutorialImageVCWithImage(1, description: "Tap three buttons at the bottom to locate nearest recycle bin, compost bin and trash bin, respectively."),
-        generateTutorialImageVCWithImage(2, description: "Tap pins on the map to see details about bins."),
-        generateTutorialImageVCWithImage(3, description: "You can add a bin on the map by yourself! "),
+        generateTutorialImageVCWithImage(0, description: "Welcome to QuickBin! QuickBin is a convenient app to help you find the nearest waste receptacle. Swipe to the next page to go over QuickBin's tutorial."),
+        generateTutorialImageVCWithImage(1, description: "Tapping one of the three colored buttons will locate the nearest composting bin, recycling bin or trash bin, respectively."),
+        generateTutorialImageVCWithImage(2, description: "Tap the pins to see details about a particular bin on the map."),
+        generateTutorialImageVCWithImage(3, description: "You can also add a bin to the map! The pin will be striped to indicate that it was made by you. It will also match the color of the bin type."),
         {
-            let vc = generateTutorialImageVCWithImage(4, description: "You has finished the tutorial. Continue by tapping!")
+            let vc = generateTutorialImageVCWithImage(4, description: "You're now ready to use QuickBin! Tap the screen to continue.")
             vc.view.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(finishedTutorial(_:))))
             return vc
         }()
